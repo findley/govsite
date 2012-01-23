@@ -1,0 +1,44 @@
+<div class="searchbar">
+  <%= form_tag '/positions/search', :method => :get do %>
+  <p>
+    Tell me how
+    <%= text_field_tag :searchperson, params[:searchperson], :placeholder => 'congressman' %>
+    voted on bills relating to
+    <%= text_field_tag :searchtopic, params[:searchtopic], :placeholder => 'topic' %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <% end %>
+</div>
+
+<table class="results">
+  <tr>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Vote</th>
+    <th>Result</th>
+  </tr>
+
+<% if @positions.nil? %>
+  <% @suggestions.each do |suggestion| %>
+  <tr>
+    <td><%= suggestion %></td>
+  </tr>
+  <% end %>
+<% else %>
+  <% @positions.each do |position| %>
+  <tr>
+    <td><%= Vote.find(position.voteid).date %></td>
+    <% if Vote.find(position.voteid).billnumber > 0 %>
+      <td><%= Bill.find_by_number(Vote.find(position.voteid).billnumber).fulltitle %></td>
+    <% else %>
+      <td><%= Vote.find(position.voteid).description %></td>
+    <% end %>
+    <td><%= link_to position.displayas, position %></td>
+    <td><%= Vote.find(position.voteid).result %></td>
+  </tr>
+  <% end %>
+<% end %>
+
+</table>
+
+

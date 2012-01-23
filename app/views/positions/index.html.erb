@@ -1,0 +1,13 @@
+<div class="searchbar">
+  <%= form_tag '/positions/search', :method => :get do %>
+  <p>
+    Tell me how
+    <%= text_field_tag :searchperson, params[:searchperson], :placeholder => 'congressman' %>
+    voted on bills relating to
+    <%= text_field_tag :searchtopic, params[:searchtopic], :placeholder => 'topic' %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <% end %>
+</div>
+
+

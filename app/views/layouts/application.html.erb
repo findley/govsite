@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TransparentVotes</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div class="logo">
+	<img src="/images/Screenshot.png" alt="logo" width="290" height="80" />
+	The power of a congressman lies with his vote for or against any given bill.  Directly analyze past campaign promises by researching how a politician voted on bills relating to a particular issue. Do the actions follow the words?
+</div>
+
+<div class="signin">
+  <% if user_signed_in? %>
+    Signed in as <%= current_user.email %>. Not you?
+    <%= link_to "Sign out", destroy_user_session_path %>
+  <% else %>
+	By signing up, you may access a search bar with several other searching parameters, and a newsfeed with interesting tidbits about your local representatives. So
+    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in",new_user_session_path %>!
+  <% end %>
+	<br />
+	All data is gathered from govtrack.us.
+</div>
+
+<%= yield %>
+
+</body>
+</html>
