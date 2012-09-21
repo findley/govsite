@@ -1,0 +1,22 @@
+// Place all the styles related to the States controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.statecp {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+        width: 64%;
+	top: 40px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 3px 3px #6A0402;
+}
+
+table.statecp tr:nth-child(2n+1) {
+	background-color: #ccc;
+}
+
+table.statecp tr:nth-child(1) {
+	background-color: gray;
+}

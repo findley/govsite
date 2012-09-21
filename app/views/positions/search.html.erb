@@ -1,5 +1,6 @@
 <div class="searchbar">
   <%= form_tag '/positions/search', :method => :get do %>
+  <%= flash[:notice] %>
   <p>
     Tell me how
     <%= text_field_tag :searchperson, params[:searchperson], :placeholder => 'congressman' %>
@@ -11,29 +12,41 @@
 </div>
 
 <table class="results">
+<% if @positions.nil? %>
+  <tr>
+    <th>
+      No matches by that name.
+      <% if @suggestions.length > 0 %>
+        Suggestions:
+      <% end %>
+    </th>
+  </tr>
+  <% @suggestions.each do |suggestion| %>
+  <tr>
+    <td><%= link_to 'Born:'+suggestion.birthday.to_s()+' '+suggestion.firstname+' '+suggestion.lastname, "/positions/search?utf8=✓&searchperson=#{suggestion.id}&searchtopic=#{params[:searchtopic]}" %></td>
+  </tr>
+  <% end %>
+<% elsif @positions.length == 0 %>
+  <tr>
+    <th>That person has not voted on any bills about that topic.</th>
+  </tr>
+<% else %>
   <tr>
     <th>Date</th>
     <th>Description</th>
     <th>Vote</th>
     <th>Result</th>
   </tr>
-
-<% if @positions.nil? %>
-  <% @suggestions.each do |suggestion| %>
-  <tr>
-    <td><%= suggestion %></td>
-  </tr>
-  <% end %>
-<% else %>
   <% @positions.each do |position| %>
   <tr>
-    <td><%= Vote.find(position.voteid).date %></td>
+    <td><%= Vote.find(position.voteid).date.strftime('%m/%d/%y') %></td>
     <% if Vote.find(position.voteid).billnumber > 0 %>
-      <td><%= Bill.find_by_number(Vote.find(position.voteid).billnumber).fulltitle %></td>
+      <td><%= link_to Bill.find_by_number(Vote.find(position.voteid).billnumber).title, "http://www.opencongress.org/bill/#{Bill.find_by_number(Vote.find(position.voteid).billnumber).session.to_s+'-'+Bill.find_by_number(Vote.find(position.voteid).billnumber).billtype+Bill.find_by_number(Vote.find(position.voteid).billnumber).number.to_s}/show" %>
+          <%= Vote.find(position.voteid).description %></td>
     <% else %>
       <td><%= Vote.find(position.voteid).description %></td>
     <% end %>
-    <td><%= link_to position.displayas, position %></td>
+    <td><%= position.displayas %></td>
     <td><%= Vote.find(position.voteid).result %></td>
   </tr>
   <% end %>

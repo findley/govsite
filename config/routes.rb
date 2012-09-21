@@ -1,4 +1,6 @@
 Govsite::Application.routes.draw do
+  resources :states
+
   devise_for :users do
 	get "/users/sign_out" => "devise/sessions#destroy", :as => :destroy_user_session
   end
@@ -8,6 +10,8 @@ Govsite::Application.routes.draw do
   match 'positions/search' => 'positions#search'
 
   resources :positions
+
+  match 'state.html' => 'states#index'
   
 
   # The priority is based upon order of creation:

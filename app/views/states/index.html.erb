@@ -1,0 +1,35 @@
+<div class="searchbar">
+  <%= form_tag '/positions/search', :method => :get do %>
+  <%= flash[:notice] %>
+  <p>
+    Tell me how
+    <%= text_field_tag :searchperson, params[:searchperson], :placeholder => 'congressman' %>
+    voted on bills relating to
+    <%= text_field_tag :searchtopic, params[:searchtopic], :placeholder => 'topic' %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <% end %>
+</div>
+
+
+<div>
+	<table class="statecp">
+	<tr><th></th><th>Description</th><th>Vote</th><th>Result</th></tr>
+	<% @states.each do |state| %>
+		<tr><td><b><%= Person.find(state[0].personid).firstname+' '+Person.find(state[0].personid).lastname+' ('+State.find_by_personid(state[0].personid).typecp+')' %></b></td></tr>
+		<% for s in state %>
+			<tr>
+			<td><%= s.date.strftime('%m/%d/%y') %></td>
+			<% if s.billnumber > 0 %>
+				<td><%= s.title %>
+				<%= s.description %></td>
+			<% else %>
+				<td><%= s.description %></td>
+			<% end %>
+			<td><%= s.displayas %></td>
+			<td><%= s.result %></td>
+			</tr>
+		<% end %>
+	<% end %>
+	</table>
+</div>

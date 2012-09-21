@@ -28,6 +28,7 @@ class Position < ActiveRecord::Base
 			b.fulltitle like #{query}
 		)
 	)
+	order by pv.date desc
 	limit 150;
 END_QUERY
 		return self.find_by_sql(sql)

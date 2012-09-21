@@ -1,5 +1,71 @@
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {      
+     
+    //Execute the slideShow
+    slideShow();
+ 
+});
+ 
+function slideShow() {
+ 
+    //Set the opacity of all images to 0
+    $('#gallery a').css({opacity: 0.0});
+     
+    //Get the first image and display it (set it to full opacity)
+    $('#gallery a:first').css({opacity: 1.0});
+     
+    //Set the caption background to semi-transparent
+    $('#gallery .caption').css({opacity: 0.7});
+ 
+    //Resize the height of the caption according to the image height
+    $('#gallery .caption').css({height: $('#gallery a').find('img').css('height')});
+     
+    //Get the caption of the first image from REL attribute and display it
+    $('#gallery .content').html($('#gallery a:first').find('img').attr('rel'))
+    .animate({opacity: 1.0}, 400);
+     
+    //Call the gallery function to run the slideshow, 6000 = change to next image after 6 seconds
+    setInterval('gallery()',7000);
+     
+}
+ 
+function gallery() {
+     
+    //if no IMGs have the show class, grab the first image
+    var current = ($('#gallery a.show')?  $('#gallery a.show') : $('#gallery a:first'));
+ 
+    //Get next image, if it reached the end of the slideshow, rotate it back to the first image
+    var next = ((current.next().length) ? ((current.next().hasClass('caption'))? $('#gallery a:first') :current.next()) : $('#gallery a:first'));   
+     
+    //Get next image caption
+    var caption = next.find('img').attr('rel'); 
+     
+    //Set the fade in effect for the next image, show class has higher z-index
+    next.css({opacity: 0.0})
+    .addClass('show')
+    .animate({opacity: 1.0}, 1000);
+ 
+    //Hide the current image
+    current.animate({opacity: 0.0}, 1000)
+    .removeClass('show');
+     
+    //Animate the caption, opacity to 0.7 and heigth to 100px, a slide up effect
+    $('#gallery .caption').animate({opacity: 0.7},{ queue:true, duration:300 } ).animate({height: $('#gallery a').find('img').css('height')},{ queue:false, duration:0 });
+     
+    //Display the content
+    $('#gallery .content').html(caption);
+         
+}
+</script>
+
+</head>
+
+
 <div class="searchbar">
   <%= form_tag '/positions/search', :method => :get do %>
+  <%= flash[:notice] %>
   <p>
     Tell me how
     <%= text_field_tag :searchperson, params[:searchperson], :placeholder => 'congressman' %>
@@ -11,3 +77,27 @@
 </div>
 
 
+<div id="gallery">
+    <a href="#" class="show">
+    <img src="images/joe.jpg" alt="Joe Lieberman" rel="<h3>Joe Lieberman</h3>Years after supporting Don't Ask Don't Tell in 1993 and the Defense of Marriage Act in 1996, he voted for H.R. 2965, the Don't Ask, Don't Tell Repeal Act of 2010"/></a>
+    </a>
+     
+    <a href="#">
+        <img src="images/newt.jpg" alt="Newt Gingrich" rel="<h3>Newt Gingrich</h3>Currently a presidential candidate, he has always supported unlimited financial contributions campaigns, opposing the McCain-Feingold Campaign Finance Reform Bill in 2002."/>
+    </a>
+
+    <a href="#">
+        <img src="images/harry.jpg" alt="Harry Reid" rel="<h3>Harry Reid</h3>As senate majority leader, he unsurprisingly votes along the democratic party line 94% of the time.  However, he is anti-abortion, voting for the Unborn Victims of Violence Act in 2004."/>
+    </a>
+    <div class="caption"><div class="content"></div></div>
+</div>
+<div class="clear"></div>
+
+<div class="suggestsearch">
+	<h3>Suggested Searches</h3>
+	<h4>People to search</h4>
+		<ul><li>Harry Reid</li><li>Joe Lieberman</li><li>John Boehner</li></ul>
+	<h4>Topics to search</h4>
+		<ul><li>energy</li><li>healthcare</li><li>environment</li></ul>
+	<p>For the history buffs among you, this database goes back to the first congress!  Curious about how Abraham Lincoln voted on slave issues while in congress?  You can look that up, too!</p>
+</div>

@@ -5,7 +5,7 @@ class Person < ActiveRecord::Base
 		nameparts = fullname.split	
 		lastnames = Person.find_all_by_lastname(nameparts[-1])
 		if lastnames.length == 0
-			return nil
+			return []
 		else
 			defmatch=[]
 			for name in lastnames

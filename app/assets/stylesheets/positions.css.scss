@@ -2,15 +2,91 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.searchbar {
-	position: relative;
-	top: -100px;
-	text-align: center;
-}
-
 table.results {
 	position: relative;
-	top: -50px;
-	left: 20%;
+	margin-left: auto;
+	margin-right: auto;
         width: 64%;
+	top: 40px;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 0 0 3px 3px #6A0402;
+}
+
+table.results tr:nth-child(2n+1) {
+	background-color: #ccc;
+}
+
+table.results tr:nth-child(1) {
+	background-color: gray;
+}
+
+div.captionme { 
+	position: relative;
+	left: 18%;
+	top: 30px;
+	width: 40%;
+}
+
+.captionme img { 
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+.clear {
+	clear:both
+}
+ 
+#gallery {
+	position:relative;
+	left: 18%;
+	top: 30px;
+	width: 40%;
+}
+
+#gallery a {
+	float:left;
+	position:absolute;
+}
+
+#gallery a img {
+	border-radius: 10px;
+	box-shadow: 0 0 3px 3px #6A0402;
+}
+
+#gallery a.show {
+	z-index:500
+}
+
+#gallery .caption {
+	z-index:600; 
+	background-color:#000; 
+	color:#ffffff; 
+	height:100%; 
+	width:120px; 
+	position:absolute;
+}
+
+#gallery .caption .content {
+	padding: 5px;
+	position: relative;
+	top: 20px;
+}
+
+#gallery .caption .content h3 {
+	margin:0;
+	padding:0;
+	color:#1DCCEF;
+}
+
+div.suggestsearch {
+	position: relative;
+	float: right;
+	right: 18%;
+	top: 30px;
+	background-color: white;
+	width: 22%;
+	border-radius: 10px;
+	box-shadow: 0 0 3px 3px #6A0402;
 }
